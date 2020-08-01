@@ -15,9 +15,24 @@ class MyWindow : public Gtk::Window {
 	protected:
 		/* stuff realted to drawing */
 		drawer dr;
-		Gtk::Frame drawArea;
+		Gtk::Frame mainFrame;
 		/* slot which provides a call every x second */
 		sigc::connection timeout;
+
+		/* gtk stuff */
+		Gtk::HBox hBoxMaster;
+
+	public:
+		/* constructor and destructor */
+		MyWindow(unsigned int sizeX, unsigned int sizeY);
+		~MyWindow();
+		
+		/* @brief startx the calculating
+		 *
+		 * @param milisecondsDT time between each calculation step (the smaller the better
+		 */
+		void start(unsigned int miliSecondsDT);
+};
 
 		
 
