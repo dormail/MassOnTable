@@ -47,6 +47,13 @@ class drawer : public Gtk::DrawingArea {
 		/* destroy the drawer object */
 		virtual ~drawer();
 
+		/* setter methods */
+		void set_m1(double m);
+		void set_m2(double m);
+		void set_l(double l_new);
+		void set_L(double L_new);
+		void set_g(double g_new);
+
 		/* recalculate for each physical frame
 		 * @return true success */
 		bool reCalculate();

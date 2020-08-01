@@ -124,4 +124,25 @@ bool drawer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	return true;
 }
 
+/* setter methods */
+void drawer::set_m1(double m) {
+	m1 = m;
+}
+
+void drawer::set_m2(double m) {
+	m2 = m;
+}
+
+void drawer::set_l(double l_new) {
+	l = l_new;
+}
+
+void drawer::set_L(double L_new) {
+	L = L_new;
+}
+
+void drawer::set_g(double g_new) {
+	g = g_new;
+}
+
 /*** drawer.cpp end ***/
