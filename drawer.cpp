@@ -2,9 +2,10 @@
 
 #include "drawer.h"
 #include <cmath>
+#include <iostream>
 
 drawer::drawer() : 
-	l(3), g(9.81), m1(1), m2(2), p(0), r(3), L(1)
+	l(5), g(9.81), m1(2), m2(2), p(0), r(2), L(10.0)
 {
 	lastTime = std::chrono::system_clock::now();
 }
@@ -24,10 +25,26 @@ bool drawer::reCalculate() {
 		w = L / (m1 * r * r);
 		p += w * physicalTime;
 
-		/* calculate acceleration of m2 */
-		a2 = (1 / (m1 + m2)) * (L * L / (m1 * r * r * r)) - (m2 / (m1 + m2)) * g;
-		v2 += a2 * physicalTime;
-		z2 += v2 * physicalTime;
+		/* calculate acceleration of m1 */
+		a1 = (1 / (m1 + m2)) * (L * L / (m1 * r * r * r)) - (m2 / (m1 + m2)) * g;
+		v1 += a1 * physicalTime;
+		r += v1 * physicalTime;
+
+		/* check if constraint of rope is fullfilled */
+		if (r >= l) {
+			r = l;
+		}
+		if (r <= 0) {
+			r = 0.00001;
+		}
+		
+		//a2 = (1 / (m1 + m2)) * (L * L / (m1 * r * r * r)) - (m2 / (m1 + m2)) * g;
+
+		//v2 += a2 * physicalTime;
+		//z2 += v2 * physicalTime;
+		/* if m2 hangs further down than the rope or is at the tables height */
+		//if (z2 > l) z2 = l;
+		//if (z2 > 0) z2 = 0;
 
 		dT -= physicalTime;
 	}
@@ -63,8 +80,14 @@ bool drawer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	xc = width / 2;
 	yc = width / 2;
 
-	/* todo: automatic scaling */
+	/* scaling according to window size */
 	double scale = 1;
+	if (width > height) 
+		scale = yc / (2 * l);
+	else 
+		scale = xc / (2 * l);
+
+	scale *= 0.95;
 
 	/* since we are not looking directly on to the table we need to scale down the y-component */
 	double viewingAngle = 0.75;
@@ -72,27 +95,31 @@ bool drawer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	// calculate position in cartesian space
 	x1 = int(cos(p) * r * scale);
 	y1 = int(sin(p) * r * scale * viewingAngle);
-	z2 = int(r-l);
+	z2 = int((r-l) * scale);
 
 	/* draw m1 */
-	cr->arc(xc+x1, yc+y1, 4, 0.0, 2.0 * M_PI);
+	cr->arc(xc+x1, yc+y1, 8, 0.0, 2.0 * M_PI);
 	cr->set_source_rgb(0.0, 0.0, 0.8);
 	cr->stroke();
 
 	/* draw m2 */
-	cr->arc(xc, yc+z2, 4, 0.0, 2.0 * M_PI);
+	cr->arc(xc, yc-z2, 8, 0.0, 2.0 * M_PI);
 	cr->set_source_rgb(0.8, 0.0, 0.0);
 	cr->stroke();
 
 	/* draw line between center and m1 */
 	cr->move_to(xc,yc);
-	cr->line_to(x1,y1);
+	cr->line_to(xc+x1, yc+y1);
+	cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->stroke();
 
 	/* draw line between center and m2 */
 	cr->move_to(xc,yc);
-	cr->line_to(0,z2);
+	cr->line_to(xc,yc - z2);
+	cr->set_source_rgb(0.0, 0.0, 0.0);
 	cr->stroke();
+	// std::cout = best debugger on planet earth
+	//if (z2 < 0) std::cout << "z2 < 0\n";
 
 	return true;
 }
