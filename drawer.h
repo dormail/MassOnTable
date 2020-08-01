@@ -28,7 +28,7 @@ class drawer : public Gtk::DrawingArea {
 		 * a2 = \ddot z (second time derivative of z, speed of m2)
 		 * L = angular momentum of m1 (which is constant)
 		 * */
-		double w, v2, a2, L;
+		double w, v1, v2, a1, a2, L;
 	
 		/* cartesian coordinates
 		 * x,y for m1
