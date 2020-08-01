@@ -48,6 +48,13 @@ class MyWindow : public Gtk::Window {
 		 * @param milisecondsDT time between each calculation step (the smaller the better
 		 */
 		void start(unsigned int miliSecondsDT);
+
+		/* methods when there is user input */
+		void onM1Change();
+		void onM2Change();
+		void onlChange();
+		void onLChange();
+		void onGChange();
 };
 
 		
