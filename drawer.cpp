@@ -4,7 +4,7 @@
 #include <cmath>
 
 drawer::drawer() : 
-	l(3), g(9.81), m1(1), m2(2), p(0), s(3), L(1)
+	l(3), g(9.81), m1(1), m2(2), p(0), r(3), L(1)
 {
 	lastTime = std::chrono::system_clock::now();
 }
@@ -12,8 +12,8 @@ drawer::drawer() :
 drawer::~drawer(){
 }
 
-drawer::reCalculate() {
-	double dT = std::chrono::duration_cast<std::chrono::miliseconds>
+bool drawer::reCalculate() {
+	double dT = std::chrono::duration_cast<std::chrono::milliseconds>
 		(std::chrono::system_clock::now() - lastTime).count() / 1000.0;
 
 	// approximate system every microsecond
@@ -25,11 +25,11 @@ drawer::reCalculate() {
 		p += w * physicalTime;
 
 		/* calculate acceleration of m2 */
-		a2 = (1 / (m1 + m2)) * (L * L / (m * r * r * r)) - (m2 / (m1 + m2)) * g;
+		a2 = (1 / (m1 + m2)) * (L * L / (m1 * r * r * r)) - (m2 / (m1 + m2)) * g;
 		v2 += a2 * physicalTime;
 		z2 += v2 * physicalTime;
 
-		dt -= physicalTime;
+		dT -= physicalTime;
 	}
 	
 	// catch up to real time pased
@@ -39,7 +39,7 @@ drawer::reCalculate() {
 		p += w * physicalTime;
 
 		/* calculate acceleration of m2 */
-		a2 = (1 / (m1 + m2)) * (L * L / (m * r * r * r)) - (m2 / (m1 + m2)) * g;
+		a2 = (1 / (m1 + m2)) * (L * L / (m1 * r * r * r)) - (m2 / (m1 + m2)) * g;
 		v2 += a2 * physicalTime;
 		z2 += v2 * physicalTime;
 	}

@@ -20,7 +20,7 @@ class drawer : public Gtk::DrawingArea {
 		/* generalised coordinates 
 		 * p = phi (orientation from m1)
 		 * r = radius (distance from m1 to the center of the table) */
-		double p, s;
+		double p, r;
 	
 		/* values for numerical computation 
 		 * w = omega (time-derivative of phi)
