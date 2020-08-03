@@ -158,6 +158,7 @@ double drawer::T(){
 
 double drawer::V(){
 	/* since we define E_pot = 0 at z = 0 m1 has not potential energy */
+	z2 = l - r;
 	return -1 * m2 * g * z2;
 }
 
