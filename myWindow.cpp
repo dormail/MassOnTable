@@ -13,6 +13,7 @@ MyWindow::MyWindow(unsigned int sizeX, unsigned int sizeY)
 	boxl(false, 10),
 	boxL(false, 10),
 	boxG(false, 10),
+	boxE(false, 10),
 	/* setting buttons */
 	buttonM1(Gtk::Adjustment::create(1, 0.001, 1000, 0.1, 1, 42), 0, 1),
 	buttonM2(Gtk::Adjustment::create(1, 0.001, 1000, 0.1, 1, 42), 0, 1),
@@ -25,12 +26,15 @@ MyWindow::MyWindow(unsigned int sizeX, unsigned int sizeY)
 	labell("l = "),
 	labelL("L = "),
 	labelG("g = "),
+	labelE("Energy: "),
+	labelEnergyDisplay(""),
 	/* setting units */
 	unitM1("kg"),
 	unitM2("kg"),
 	unitlength("m"),
 	unitG("m/s²"),
-	unitL("kg m²/s")
+	unitL("kg m²/s"),
+	unitE("J")
 {
 	set_title("Mass on table");
 	set_default_size(sizeX, sizeY);
@@ -81,6 +85,13 @@ MyWindow::MyWindow(unsigned int sizeX, unsigned int sizeY)
 	boxG.add(buttonG);
 	boxG.add(unitG);
 	vBoxSettings.pack_start(boxG, Gtk::PackOptions::PACK_SHRINK);
+	/* E */
+	boxE.add(labelE);
+	boxE.add(labelEnergyDisplay);
+	boxE.add(unitE);
+	vBoxSettings.pack_start(boxE, Gtk::PackOptions::PACK_SHRINK);
+	/* connect E label to E signal from the drawer */
+	dr.signalEnergy.connect(sigc::mem_fun1(this, &MyWindow::setTotalEnergyLabel));
 	
 	show_all_children();
 }
@@ -114,5 +125,12 @@ void MyWindow::onLChange(){
 void MyWindow::onGChange(){
 	dr.set_g(buttonG.get_value());
 }
+
+/* method setting energy label */
+void MyWindow::setTotalEnergyLabel(double energy){
+	labelEnergyDisplay.set_markup(Glib::ustring("<tt>").append(std::to_string(energy)).append("</tt>"));
+	labelEnergyDisplay.set_width_chars(10);
+}
+
 
 /*** myWindow.cpp end ***/

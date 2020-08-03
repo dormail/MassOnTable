@@ -120,6 +120,9 @@ bool drawer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	cr->stroke();
 	// std::cout = best debugger on planet earth
 	//if (z2 < 0) std::cout << "z2 < 0\n";
+	
+	/* sending signal for energy display */
+	signalEnergy.emit(energy());
 
 	return true;
 }
@@ -143,6 +146,24 @@ void drawer::set_L(double L_new) {
 
 void drawer::set_g(double g_new) {
 	g = g_new;
+}
+
+/* methods calculating energy in the system */
+double drawer::T(){
+	/* Tx = kinetic energy of mx */
+	double T1 = 0.5 * m1 * (w * w * r * r + v1 * v1);
+	double T2 = 0.5 * m2 * v2 * v2;
+	return T1 + T2;
+}
+
+double drawer::V(){
+	/* since we define E_pot = 0 at z = 0 m1 has not potential energy */
+	return -1 * m2 * g * z2;
+}
+
+double drawer::energy(){
+	/* E = T + V */
+	return T() + V();
 }
 
 /*** drawer.cpp end ***/

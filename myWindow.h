@@ -25,18 +25,17 @@ class MyWindow : public Gtk::Window {
 		// VBox with all the settings
 		Gtk::VBox vBoxSettings;
 		// HBox for each setting
-		Gtk::HBox boxM1, boxM2, boxl, boxL, boxG;
+		Gtk::HBox boxM1, boxM2, boxl, boxL, boxG, boxE;
 		/* spin button for typing in values for m1, etc.
 		 * Labels so that user knows what he is typing in
 		 * Alignment for looks
 		 * Energery box giving out energy
 		 */
 		Gtk::SpinButton buttonM1, buttonM2, buttonl, buttonL, buttonG;
-		Gtk::Label labelM1, labelM2, labell, labelL, labelG;
-		Gtk::Label unitM1, unitM2, unitlength, unitG, unitL;
+		Gtk::Label labelM1, labelM2, labell, labelL, labelG, labelE;
+		Gtk::Label unitM1, unitM2, unitlength, unitG, unitL, unitE;
 		Gtk::Alignment buttonAlign;
-		Gtk::HBox hBoxEnergy;
-		Gtk::Label totalEnergy;
+		Gtk::Label totalEnergy, labelEnergyDisplay;
 
 	public:
 		/* constructor and destructor */
@@ -55,6 +54,9 @@ class MyWindow : public Gtk::Window {
 		void onlChange();
 		void onLChange();
 		void onGChange();
+
+		/* Method setting the Energy value */
+		void setTotalEnergyLabel(double Energy);
 };
 
 		

@@ -27,6 +27,7 @@ class drawer : public Gtk::DrawingArea {
 		 * v2 = \dot z (time derivative of z, speed of m2)
 		 * a2 = \ddot z (second time derivative of z, speed of m2)
 		 * L = angular momentum of m1 (which is constant)
+		 * v1 = radial speed of m1 (\dot r)
 		 * */
 		double w, v1, v2, a1, a2, L;
 	
@@ -57,6 +58,14 @@ class drawer : public Gtk::DrawingArea {
 		/* recalculate for each physical frame
 		 * @return true success */
 		bool reCalculate();
+
+		/* methods for calculating energy in the system */
+		double T();
+		double V();
+		double energy();
+
+		/* sending energy to Window for displaying */
+		sigc::signal1<void, double> signalEnergy;
 };
 
 #endif
