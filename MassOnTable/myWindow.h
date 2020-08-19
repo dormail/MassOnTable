@@ -8,7 +8,7 @@
 #include <cmath>
 #include <gtkmm.h>
 #include <gtkmm-3.0/gtkmm/window.h>
-#include <boost/log/trivial.hpp>
+//#include <boost/log/trivial.hpp>
 
 // main window
 class MyWindow : public Gtk::Window {
